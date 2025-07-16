@@ -8,7 +8,7 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Fredoka+One&display=swap" rel="stylesheet" />
 
-  <!-- Confetti library -->
+  <!-- Confetti -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 
   <style>
@@ -22,36 +22,42 @@
       --shadow: rgba(0,0,0,0.2);
     }
 
-    /* Full-page background (no 'fixed', for iOS support) */
-    html, body {
-      height: 100%;
-      margin: 0; padding: 0;
+    /* Reset */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
-    body {
+    html, body {
+      font-family: 'Poppins', sans-serif;
+      color: var(--text);
+      line-height: 1.4;
+    }
+
+    /* Fixed background and overlay for all devices */
+    #bg {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
       background-image: url('background-small.jpg');
       background-repeat: no-repeat;
       background-position: center center;
       background-size: cover;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px;
-      font-family: 'Poppins', sans-serif;
-      color: var(--text);
-      min-height: 100vh;
+      z-index: -2;
     }
-    /* Dark overlay always on top of the image */
-    body::before {
-      content: "";
+    #overlay {
       position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
+      top: 0; left: 0; width: 100vw; height: 100vh;
       background: var(--bg-overlay);
       z-index: -1;
     }
 
-    /* Reset box-sizing */
-    *, *::before, *::after { box-sizing: border-box; }
+    /* Layout */
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
 
     /* Header */
     header {
@@ -74,21 +80,19 @@
       50%     { transform: translateY(-8px); }
     }
 
-    /* “Your Picks” small glass panel */
+    /* Your Picks panel */
     #currentPicks {
       display: inline-block;
       margin: 15px 0 20px;
       padding: 10px 20px;
       background: var(--card-bg);
       backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
       border: 1px solid rgba(255,255,255,0.5);
       border-radius: 8px;
       font-size: 1.1rem;
       text-align: center;
-      color: var(--text);
-      animation: fadeIn 1s forwards;
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      animation: fadeIn 1s forwards;
     }
     #currentPicks strong { color: var(--secondary); }
     @keyframes fadeIn { to { opacity: 1; } }
@@ -100,7 +104,6 @@
       padding: 8px 12px;
       background: var(--card-bg);
       backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
       border: 1px solid rgba(255,255,255,0.5);
       border-radius: 8px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
@@ -111,10 +114,9 @@
       font-size: 1rem;
       border: 1px solid rgba(0,0,0,0.2);
       border-radius: 6px;
-      outline: none;
     }
 
-    /* Card grid */
+    /* Grid of cards */
     main {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -123,11 +125,10 @@
       max-width: 1200px;
     }
 
-    /* Contestant cards */
+    /* Contestant card styling */
     .card {
       background: var(--card-bg);
       backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
       border: 1px solid rgba(255,255,255,0.5);
       border-radius: 12px;
       box-shadow: 0 6px 12px var(--shadow);
@@ -179,7 +180,7 @@
       transform: scale(0.95) rotate(0deg);
     }
 
-    /* Bets list & controls */
+    /* Bets list */
     #bets {
       margin-top: 40px;
       width: 100%;
@@ -198,7 +199,6 @@
       padding: 8px 12px;
       background: var(--card-bg);
       backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
       border: 1px solid rgba(255,255,255,0.5);
       border-radius: 6px;
       font-weight: 600;
@@ -208,7 +208,6 @@
       list-style: none;
       background: var(--card-bg);
       backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
       border: 1px solid rgba(255,255,255,0.5);
       border-radius: 8px;
       box-shadow: 0 4px 8px var(--shadow);
@@ -245,6 +244,10 @@
   </style>
 </head>
 <body>
+  <!-- Fixed background and overlay -->
+  <div id="bg"></div>
+  <div id="overlay"></div>
+
   <header>
     <h1>🌮 Taco Contest Bets 🌮</h1>
     <p>Pick your champion &amp; place your stake!</p>
@@ -259,7 +262,7 @@
   </div>
 
   <main>
-    <!-- 19 Contestant Cards -->
+    <!-- 19 cards -->
     <div class="card">
       <h3>Robert<br><span class="nickname">Taco ‘Bout Robert</span><br>Bridges</h3>
       <button class="bet-btn">🌮 Place Bet</button>
