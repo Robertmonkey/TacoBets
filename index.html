@@ -22,14 +22,15 @@
       --shadow: rgba(0,0,0,0.2);
     }
 
-    /* Full-page background + fixed dark overlay */
+    /* Full-page background (no 'fixed', for iOS support) */
     html, body {
       height: 100%;
-      margin: 0;
-      padding: 0;
+      margin: 0; padding: 0;
     }
     body {
-      background: url('background-small.jpg') no-repeat center center fixed;
+      background-image: url('background-small.jpg');
+      background-repeat: no-repeat;
+      background-position: center center;
       background-size: cover;
       position: relative;
       display: flex;
@@ -40,6 +41,7 @@
       color: var(--text);
       min-height: 100vh;
     }
+    /* Dark overlay always on top of the image */
     body::before {
       content: "";
       position: fixed;
@@ -49,9 +51,7 @@
     }
 
     /* Reset box-sizing */
-    *, *::before, *::after {
-      box-sizing: border-box;
-    }
+    *, *::before, *::after { box-sizing: border-box; }
 
     /* Header */
     header {
@@ -70,11 +70,11 @@
       color: var(--primary);
     }
     @keyframes bounce {
-      0%,100%   { transform: translateY(0); }
-      50%       { transform: translateY(-8px); }
+      0%,100% { transform: translateY(0); }
+      50%     { transform: translateY(-8px); }
     }
 
-    /* “Your Picks” banner */
+    /* “Your Picks” small glass panel */
     #currentPicks {
       display: inline-block;
       margin: 15px 0 20px;
@@ -90,12 +90,8 @@
       animation: fadeIn 1s forwards;
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
-    #currentPicks strong {
-      color: var(--secondary);
-    }
-    @keyframes fadeIn {
-      to { opacity: 1; }
-    }
+    #currentPicks strong { color: var(--secondary); }
+    @keyframes fadeIn { to { opacity: 1; } }
 
     /* Search filter */
     #searchContainer {
@@ -127,7 +123,7 @@
       max-width: 1200px;
     }
 
-    /* Individual cards */
+    /* Contestant cards */
     .card {
       background: var(--card-bg);
       backdrop-filter: blur(6px);
@@ -138,8 +134,6 @@
       padding: 18px;
       text-align: center;
       transition: transform 0.2s, box-shadow 0.2s;
-      position: relative;
-      overflow: hidden;
     }
     .card:hover {
       transform: scale(1.04) rotate(-1deg);
@@ -185,7 +179,7 @@
       transform: scale(0.95) rotate(0deg);
     }
 
-    /* Bets list */
+    /* Bets list & controls */
     #bets {
       margin-top: 40px;
       width: 100%;
@@ -234,7 +228,7 @@
     #bets li:last-child      { border-bottom: none; }
     @keyframes slideIn {
       from { transform: translateX(-20px); opacity: 0; }
-      to   { transform: translateX(0);    opacity: 1; }
+      to   { transform: translateX(0);     opacity: 1; }
     }
     .secondary-btn {
       padding: 8px 14px;
@@ -355,15 +349,12 @@
     const searchInput = document.getElementById('searchInput');
     const cards = document.querySelectorAll('.card');
 
-    function filterCards() {
-      const query = searchInput.value.toLowerCase();
-      cards.forEach(card => {
-        const text = card.querySelector('h3').innerText.toLowerCase();
-        card.style.display = text.includes(query) ? '' : 'none';
+    searchInput.addEventListener('input', () => {
+      const q = searchInput.value.toLowerCase();
+      cards.forEach(c => {
+        c.style.display = c.innerText.toLowerCase().includes(q) ? '' : 'none';
       });
-    }
-
-    searchInput.addEventListener('input', filterCards);
+    });
 
     function loadBets() {
       const bets = JSON.parse(localStorage.getItem('tacoBets')) || [];
@@ -375,57 +366,50 @@
     function renderBets(bets) {
       const ul = document.getElementById('betsList');
       ul.innerHTML = '';
-      bets.forEach(({ name, amount }) => {
+      bets.forEach(b => {
         const li = document.createElement('li');
-        li.innerHTML = `<span>${name}</span><strong>$${amount}</strong>`;
+        li.innerHTML = `<span>${b.name}</span><strong>$${b.amount}</strong>`;
         ul.appendChild(li);
       });
     }
 
     function updatePicks(bets) {
-      const picksEl = document.getElementById('picksList');
-      const uniqueNames = [...new Set(bets.map(b => b.name))];
-      picksEl.textContent = uniqueNames.length
-        ? uniqueNames.join(', ')
-        : 'None yet!';
+      const picks = [...new Set(bets.map(b=>b.name))];
+      document.getElementById('picksList').textContent =
+        picks.length ? picks.join(', ') : 'None yet!';
     }
 
     function updateTotalPot(bets) {
-      const total = bets.reduce((sum, b) => sum + parseFloat(b.amount), 0);
+      const total = bets.reduce((sum,b)=>sum+parseFloat(b.amount),0);
       document.getElementById('totalPot').textContent = `Total Pot: $${total.toFixed(2)}`;
     }
 
-    function saveBet(cardEl, name, amount) {
-      const bets = JSON.parse(localStorage.getItem('tacoBets')) || [];
+    function saveBet(card, name, amount) {
+      const bets = JSON.parse(localStorage.getItem('tacoBets'))||[];
       bets.push({ name, amount });
       localStorage.setItem('tacoBets', JSON.stringify(bets));
-
-      cardEl.classList.add('selected');
-      cardEl.addEventListener('animationend', () => {
-        cardEl.classList.remove('selected');
-      }, { once: true });
-
-      confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } });
+      card.classList.add('selected');
+      card.addEventListener('animationend',()=>card.classList.remove('selected'),{ once:true });
+      confetti({ particleCount:80,spread:60,origin:{ y:0.6 }});
       loadBets();
     }
 
-    document.querySelectorAll('.bet-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
+    document.querySelectorAll('.bet-btn').forEach(btn=>{
+      btn.addEventListener('click',()=>{
         const card = btn.closest('.card');
-        const name = card.querySelector('h3').innerText.replace(/\n/g, ' ');
-        const raw = prompt(`Enter your 💸 bet amount for "${name}":`);
-        if (raw === null) return;
+        const name = card.querySelector('h3').innerText.replace(/\n/g,' ');
+        const raw = prompt(`Enter your 💸 bet for "${name}":`);
         const amt = parseFloat(raw);
-        if (!isNaN(amt) && amt > 0) {
-          saveBet(card, name, amt.toFixed(2));
-        } else {
-          alert('🚫 Please enter a valid number greater than 0.');
+        if(raw!==null && !isNaN(amt) && amt>0) {
+          saveBet(card,name,amt.toFixed(2));
+        } else if(raw!==null) {
+          alert('🚫 Please enter a valid number > 0.');
         }
       });
     });
 
-    document.getElementById('clearBetsBtn').addEventListener('click', () => {
-      if (confirm('Are you sure you want to clear all bets?')) {
+    document.getElementById('clearBetsBtn').addEventListener('click',()=>{
+      if(confirm('Clear all bets?')) {
         localStorage.removeItem('tacoBets');
         loadBets();
       }
