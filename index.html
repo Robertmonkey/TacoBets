@@ -53,7 +53,7 @@
     }
     @keyframes bounce {
       0%,100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
+      50%     { transform: translateY(-8px); }
     }
 
     /* Current Picks */
@@ -103,13 +103,14 @@
     .card h3 {
       font-family: 'Fredoka One', cursive;
       font-size: 1.2rem;
-      margin-bottom: 8px;
+      margin-bottom: 12px;
+      line-height: 1.3;
     }
     .nickname {
       display: block;
       font-style: italic;
       color: var(--accent);
-      margin-bottom: 12px;
+      margin: 6px 0;
     }
 
     .bet-btn {
@@ -174,14 +175,80 @@
   </div>
 
   <main>
-    <!-- repeat .card blocks as before -->
     <div class="card">
-      <h3>Robert<br><span class="nickname">Taco ‘Bout Robert</span>Bridges</h3>
+      <h3>Robert<br><span class="nickname">Taco ‘Bout Robert</span><br>Bridges</h3>
       <button class="bet-btn">🌮 Place Bet</button>
     </div>
-    <!-- (other cards omitted for brevity, include all existing cards) -->
     <div class="card">
-      <h3>Max<br><span class="nickname">grab my sleigh!</span>McCombs</h3>
+      <h3>Kalvin<br><span class="nickname">Kalvinator</span><br>Loss</h3>
+      <button class="bet-btn">🌮 Place Bet</button>
+    </div>
+    <div class="card">
+      <h3>Moises<br><span class="nickname">I want “Mo” Tacos!</span><br>Perez</h3>
+      <button class="bet-btn">🌮 Place Bet</button>
+    </div>
+    <div class="card">
+      <h3>Kevon<br><span class="nickname">Don Kilo</span><br>Spikes</h3>
+      <button class="bet-btn">🌮 Place Bet</button>
+    </div>
+    <div class="card">
+      <h3>Shervin<br><span class="nickname">Sancho Libre Sherv</span><br>Hemmatian</h3>
+      <button class="bet-btn">🌮 Place Bet</button>
+    </div>
+    <div class="card">
+      <h3>Lane<br><span class="nickname">CrunchLane Supreme</span><br>White</h3>
+      <button class="bet-btn">🌮 Place Bet</button>
+    </div>
+    <div class="card">
+      <h3>Jack<br><span class="nickname">the Sloth</span><br>Karry</h3>
+      <button class="bet-btn">🌮 Place Bet</button>
+    </div>
+    <div class="card">
+      <h3>Charonda<br><span class="nickname">Shellraiser</span><br>Lee</h3>
+      <button class="bet-btn">🌮 Place Bet</button>
+    </div>
+    <div class="card">
+      <h3>Fardeen<br><span class="nickname">Basking Shark</span><br>Osmani</h3>
+      <button class="bet-btn">🌮 Place Bet</button>
+    </div>
+    <div class="card">
+      <h3>Ryan<br><span class="nickname">Tortilla Titan</span><br>Moats</h3>
+      <button class="bet-btn">🌮 Place Bet</button>
+    </div>
+    <div class="card">
+      <h3>Andy<br><span class="nickname">El Matidor Guapo</span><br>Scroggin</h3>
+      <button class="bet-btn">🌮 Place Bet</button>
+    </div>
+    <div class="card">
+      <h3>Andrew<br><span class="nickname">the Cooler Sloth</span><br>Stampley</h3>
+      <button class="bet-btn">🌮 Place Bet</button>
+    </div>
+    <div class="card">
+      <h3>Erick<br><span class="nickname">el Rojo</span><br>Sbertoli</h3>
+      <button class="bet-btn">🌮 Place Bet</button>
+    </div>
+    <div class="card">
+      <h3>Dominick<br><span class="nickname">Dirty Dom</span><br>Serignese</h3>
+      <button class="bet-btn">🌮 Place Bet</button>
+    </div>
+    <div class="card">
+      <h3>Oscar<br><span class="nickname">SNAKEDOC</span><br>Glover</h3>
+      <button class="bet-btn">🌮 Place Bet</button>
+    </div>
+    <div class="card">
+      <h3>David<br><span class="nickname">Davide</span><br>Brown</h3>
+      <button class="bet-btn">🌮 Place Bet</button>
+    </div>
+    <div class="card">
+      <h3>Max<br><span class="nickname">Bobby Sourdough</span><br>Harwell</h3>
+      <button class="bet-btn">🌮 Place Bet</button>
+    </div>
+    <div class="card">
+      <h3>Justin<br><span class="nickname">Jdubs heavy haul, ball till I fall</span><br>Wirling</h3>
+      <button class="bet-btn">🌮 Place Bet</button>
+    </div>
+    <div class="card">
+      <h3>Max<br><span class="nickname">grab my sleigh!</span><br>McCombs</h3>
       <button class="bet-btn">🌮 Place Bet</button>
     </div>
   </main>
@@ -192,7 +259,7 @@
   </section>
 
   <script>
-    // Helpers
+    // Load & render bets
     function loadBets() {
       const bets = JSON.parse(localStorage.getItem('tacoBets')) || [];
       renderBets(bets);
@@ -202,7 +269,7 @@
     function renderBets(bets) {
       const ul = document.getElementById('betsList');
       ul.innerHTML = '';
-      bets.forEach(({ name, amount }, i) => {
+      bets.forEach(({ name, amount }) => {
         const li = document.createElement('li');
         li.innerHTML = `<span>${name}</span><strong>$${amount}</strong>`;
         ul.appendChild(li);
@@ -211,10 +278,9 @@
 
     function updatePicks(bets) {
       const picksEl = document.getElementById('picksList');
-      const names = bets.map(b => b.name);
-      const unique = [...new Set(names)];
-      picksEl.textContent = unique.length
-        ? unique.join(', ')
+      const uniqueNames = [...new Set(bets.map(b => b.name))];
+      picksEl.textContent = uniqueNames.length
+        ? uniqueNames.join(', ')
         : 'None yet!';
     }
 
@@ -223,24 +289,23 @@
       bets.push({ name, amount });
       localStorage.setItem('tacoBets', JSON.stringify(bets));
 
-      // Animate card
+      // Card pulse animation
       cardEl.classList.add('selected');
       cardEl.addEventListener('animationend', () => {
         cardEl.classList.remove('selected');
       }, { once: true });
 
-      // Confetti
+      // Confetti!
       confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } });
 
-      // Re-render
       loadBets();
     }
 
-    // Attach handlers
+    // Attach click handlers to all bet buttons
     document.querySelectorAll('.bet-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const card = btn.closest('.card');
-        const name = card.querySelector('h3').innerText;
+        const name = card.querySelector('h3').innerText.replace(/\n/g, ' ');
         const raw = prompt(`Enter your 💸 bet amount for "${name}":`);
         if (raw === null) return;
         const amt = parseFloat(raw);
@@ -252,7 +317,7 @@
       });
     });
 
-    // Init
+    // Initialize on load
     window.addEventListener('DOMContentLoaded', loadBets);
   </script>
 </body>
