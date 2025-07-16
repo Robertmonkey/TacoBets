@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Taco Contest Bets</title>
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #ffca28;
+      --secondary: #ff7043;
+      --accent: #8bc34a;
+      --bg: #fff8e1;
+      --text: #4e342e;
+    }
+    /* Reset & Base */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 20px;
+      line-height: 1.4;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    header h1 {
+      font-size: 2.75rem;
+      color: var(--secondary);
+    }
+    header p {
+      font-size: 1.1rem;
+      margin-top: 5px;
+    }
+    /* Grid Layout for Cards */
+    main {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s ease;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+    }
+    .card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 12px;
+    }
+    .nickname {
+      font-style: italic;
+      color: var(--accent);
+    }
+    .bet-btn {
+      padding: 12px;
+      border: none;
+      background: var(--secondary);
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.3s ease;
+    }
+    .bet-btn:hover {
+      background: #e64a19;
+    }
+    /* Bets Section */
+    #bets {
+      margin-top: 40px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    #bets h2 {
+      font-size: 1.75rem;
+      margin-bottom: 12px;
+      text-align: center;
+      color: var(--secondary);
+    }
+    #bets ul {
+      list-style: none;
+      background: white;
+      border-radius: 8px;
+      padding: 15px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    #bets li {
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+    }
+    #bets li:last-child {
+      border-bottom: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🌮 Taco Contest Bets 🌮</h1>
+    <p>Pick your champion & place your stake!</p>
+  </header>
+
+  <main>
+    <div class="card">
+      <h3>Robert <span class="nickname">Taco ‘Bout Robert</span> Bridges</h3>
+      <button class="bet-btn">Place Bet</button>
+    </div>
+    <div class="card">
+      <h3>Kalvin <span class="nickname">Kalvinator</span> Loss</h3>
+      <button class="bet-btn">Place Bet</button>
+    </div>
+    <div class="card">
+      <h3>Moises <span class="nickname">I want "Mo" Tacos!</span> Perez</h3>
+      <button class="bet-btn">Place Bet</button>
+    </div>
+    <div class="card">
+      <h3>Kevon <span class="nickname">Don Kilo</span> Spikes</h3>
+      <button class="bet-btn">Place Bet</button>
+    </div>
+    <div class="card">
+      <h3>Shervin <span class="nickname">Sancho Libre Sherv</span> Hemmatian</h3>
+      <button class="bet-btn">Place Bet</button>
+    </div>
+    <div class="card">
+      <h3>Lane <span class="nickname">CrunchLane Supreme</span> White</h3>
+      <button class="bet-btn">Place Bet</button>
+    </div>
+    <div class="card">
+      <h3>Jack <span class="nickname">the Sloth</span> Karry</h3>
+      <button class="bet-btn">Place Bet</button>
+    </div>
+    <div class="card">
+      <h3>Charonda <span class="nickname">Shellraiser</span> Lee</h3>
+      <button class="bet-btn">Place Bet</button>
+    </div>
+    <div class="card">
+      <h3>Fardeen <span class="nickname">Basking Shark</span> Osmani</h3>
+      <button class="bet-btn">Place Bet</button>
+    </div>
+    <div class="card">
+      <h3>Ryan <span class="nickname">Tortilla Titan</span> Moats</h3>
+      <button class="bet-btn">Place Bet</button>
+    </div>
+    <div class="card">
+      <h3>Andy <span class="nickname">El Matidor Guapo</span> Scroggin</h3>
+      <button class="bet-btn">Place Bet</button>
+    </div>
+    <div class="card">
+      <h3>Andrew <span class="nickname">the Cooler Sloth</span> Stampley</h3>
+      <button class="bet-btn">Place Bet</button>
+    </div>
+    <div class="card">
+      <h3>Erick <span class="nickname">el Rojo</span> Sbertoli</h3>
+      <button class="bet-btn">Place Bet</button>
+    </div>
+    <div class="card">
+      <h3>Dominick <span class="nickname">Dirty Dom</span> Serignese</h3>
+      <button class="bet-btn">Place Bet</button>
+    </div>
+    <div class="card">
+      <h3>Oscar <span class="nickname">SNAKEDOC</span> Glover</h3>
+      <button class="bet-btn">Place Bet</button>
+    </div>
+    <div class="card">
+      <h3>David <span class="nickname">Davide</span> Brown</h3>
+      <button class="bet-btn">Place Bet</button>
+    </div>
+    <div class="card">
+      <h3>Max <span class="nickname">Bobby Sourdough</span> Harwell</h3>
+      <button class="bet-btn">Place Bet</button>
+    </div>
+    <div class="card">
+      <h3>Justin <span class="nickname">Jdubs heavy haul, ball till I fall</span> Wirling</h3>
+      <button class="bet-btn">Place Bet</button>
+    </div>
+    <div class="card">
+      <h3>Max <span class="nickname">grab my sleigh!</span> McCombs</h3>
+      <button class="bet-btn">Place Bet</button>
+    </div>
+  </main>
+
+  <section id="bets">
+    <h2>Your Bets</h2>
+    <ul id="betsList"></ul>
+  </section>
+
+  <script>
+    // Load existing bets from localStorage
+    function loadBets() {
+      const bets = JSON.parse(localStorage.getItem('tacoBets')) || [];
+      const list = document.getElementById('betsList');
+      list.innerHTML = '';
+      bets.forEach(({ name, amount }) => {
+        const li = document.createElement('li');
+        li.textContent = \`\${name}: $\${amount}\`;
+        list.appendChild(li);
+      });
+    }
+
+    // Save a new bet and re-render
+    function saveBet(name, amount) {
+      const bets = JSON.parse(localStorage.getItem('tacoBets')) || [];
+      bets.push({ name, amount });
+      localStorage.setItem('tacoBets', JSON.stringify(bets));
+      loadBets();
+    }
+
+    // Attach click handlers to all bet buttons
+    document.querySelectorAll('.bet-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const card = btn.closest('.card');
+        const name = card.querySelector('h3').innerText;
+        const raw = prompt(\`Enter your bet amount for \${name}:\`);
+        if (raw === null) return; // user cancelled
+        const amt = parseFloat(raw);
+        if (!isNaN(amt) && amt > 0) {
+          saveBet(name, amt.toFixed(2));
+        } else {
+          alert('Please enter a valid number greater than 0.');
+        }
+      });
+    });
+
+    // Initial render
+    window.addEventListener('DOMContentLoaded', loadBets);
+  </script>
+</body>
+</html>
